@@ -11,7 +11,7 @@ import {
 export default function Obras() {
   const [obras, setObras] = useState([]);
   const [editId, setEditId] = useState(null);
-  const { register, handleSubmit, reset, setValue } = useForm();
+  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm();
 
   // Cargar todas las obras
   const loadObras = async () => {
@@ -67,18 +67,24 @@ export default function Obras() {
 
   return (
     <div className="container py-4">
-      <h2 className="text-center mb-4">🖼️ Gestión de Obras</h2>
+      <h1 className="text-center mb-4 text-dark fw-bold">🖼️ Gestión de Obras</h1>
 
       {/* FORMULARIO */}
-      <form onSubmit={handleSubmit(onSubmit)} className="card p-3 mb-4 shadow-sm">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="card border-0 shadow-sm p-3 mb-4"
+      >
         <div className="row g-3">
           <div className="col-md-3">
             <input
               type="text"
-              {...register("titulo", { required: true })}
+              {...register("titulo", { required: "El titulo es obligatorio" })}
               placeholder="Título"
               className="form-control"
             />
+            {errors.titulo && (
+              <small className="text-danger">{errors.titulo.message}</small>
+            )}
           </div>
           <div className="col-md-2">
             <input
@@ -99,10 +105,13 @@ export default function Obras() {
           <div className="col-md-2">
             <input
               type="number"
-              {...register("id_artista", { required: true })}
+              {...register("id_artista", { required: "El ID del artista es obligatorio" })}
               placeholder="ID Artista"
               className="form-control"
             />
+            {errors.id_artista && (
+              <small className="text-danger">{errors.id_artista.message}</small>
+            )}
           </div>
           <div className="col-md-2 text-center">
             <button className="btn btn-primary w-100">
@@ -115,7 +124,7 @@ export default function Obras() {
       {/* TABLA */}
       <div className="table-responsive shadow-sm">
         <table className="table table-hover align-middle shadow-sm">
-          <thead className="table-primary">
+          <thead className="table-primary text-center">
             <tr>
               <th>ID</th>
               <th>Título</th>
@@ -125,7 +134,7 @@ export default function Obras() {
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-center">
             {obras.map((obra) => (
               <tr key={obra.id}>
                 <td>{obra.id}</td>
@@ -144,7 +153,7 @@ export default function Obras() {
                     onClick={() => handleDelete(obra.id)}
                     className="btn btn-danger btn-sm"
                   >
-                    🗑️ Eliminar
+                    <i className="bi bi-trash"></i> Eliminar
                   </button>
                 </td>
               </tr>

@@ -11,7 +11,13 @@ import {
 export default function Exposiciones() {
   const [exposiciones, setExposiciones] = useState([]);
   const [editId, setEditId] = useState(null);
-  const { register, handleSubmit, reset, setValue } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm();
 
   // Cargar exposiciones
   const loadExposiciones = async () => {
@@ -67,18 +73,24 @@ export default function Exposiciones() {
 
   return (
     <div className="container py-4">
-      <h2 className="text-center mb-4">🏛️ Gestión de Exposiciones</h2>
+      <h1 className="text-center mb-4 text-dark fw-bold">🏛️ Gestión de Exposiciones</h1>
 
       {/* FORMULARIO */}
-      <form onSubmit={handleSubmit(onSubmit)} className="card p-3 mb-4 shadow-sm">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="card border-0 shadow-sm p-3 mb-4"
+      >
         <div className="row g-3">
           <div className="col-md-3">
             <input
               type="text"
-              {...register("nombre", { required: true })}
+              {...register("nombre", { required: "El nombre es obligatorio" })}
               placeholder="Nombre"
               className="form-control"
             />
+            {errors.nombre && (
+              <small className="text-danger">{errors.nombre.message}</small>
+            )}
           </div>
           <div className="col-md-3">
             <input
@@ -91,16 +103,22 @@ export default function Exposiciones() {
           <div className="col-md-2">
             <input
               type="date"
-              {...register("fecha_inicio")}
+              {...register("fecha_inicio", { required: "La fecha de inicio es obligatoria" })}
               className="form-control"
             />
+            {errors.fecha_inicio && (
+              <small className="text-danger">{errors.fecha_inicio.message}</small>
+            )}
           </div>
           <div className="col-md-2">
             <input
               type="date"
-              {...register("fecha_fin")}
+              {...register("fecha_fin", { required: "La fecha de fin es obligatoria" })}
               className="form-control"
             />
+            {errors.fecha_fin && (
+              <small className="text-danger">{errors.fecha_fin.message}</small>
+            )}
           </div>
           <div className="col-md-2 text-center">
             <button className="btn btn-primary w-100">
@@ -113,7 +131,7 @@ export default function Exposiciones() {
       {/* TABLA */}
       <div className="table-responsive shadow-sm">
         <table className="table table-hover align-middle shadow-sm">
-          <thead className="table-primary">
+          <thead className="table-primary text-center">
             <tr>
               <th>ID</th>
               <th>Nombre</th>
@@ -123,7 +141,7 @@ export default function Exposiciones() {
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-center">
             {exposiciones.map((expo) => (
               <tr key={expo.id}>
                 <td>{expo.id}</td>
@@ -142,7 +160,7 @@ export default function Exposiciones() {
                     onClick={() => handleDelete(expo.id)}
                     className="btn btn-danger btn-sm"
                   >
-                    🗑️ Eliminar
+                    <i className="bi bi-trash"></i> Eliminar
                   </button>
                 </td>
               </tr>

@@ -64,15 +64,15 @@ export default function Artistas() {
   };
 
   return (
-    <div className="container py-5">
-      <h1 className="text-center mb-4 text-primary fw-bold">
-        🧑‍🎨  Gestión de Artistas
+    <div className="container py-4">
+      <h1 className="text-center mb-4 text-dark fw-bold">
+        🧑‍🎨 Gestión de Artistas
       </h1>
 
       {/* FORMULARIO */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="card p-3 mb-4 shadow-sm"
+        className="card border-0 p-3 mb-4 shadow-sm"
       >
         <div className="row g-3 align-items-end">
           <div className="col-md-3">
@@ -127,7 +127,7 @@ export default function Artistas() {
       {/* TABLA */}
       <div className="table-responsive">
         <table className="table table-hover align-middle shadow-sm">
-          <thead className="table-primary">
+          <thead className="table-primary text-center">
             <tr>
               <th>ID</th>
               <th>Nombre</th>
@@ -136,7 +136,7 @@ export default function Artistas() {
               <th className="text-center">Acciones</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-center">
             {artistas.length > 0 ? (
               artistas.map((a) => (
                 <tr key={a.id}>
@@ -155,7 +155,7 @@ export default function Artistas() {
                       onClick={() => handleDelete(a.id)}
                       className="btn btn-danger btn-sm"
                     >
-                      🗑️ Eliminar
+                      <i className="bi bi-trash"></i> Eliminar
                     </button>
                   </td>
                 </tr>

@@ -14,7 +14,7 @@ export default function ObrasExpuestas() {
   const [obras, setObras] = useState([]);
   const [exposiciones, setExposiciones] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   // 🔄 Cargar datos desde el backend
   const loadData = async () => {
@@ -45,7 +45,9 @@ export default function ObrasExpuestas() {
     try {
       const response = await createObraExpuesta(data);
 
-      if (response?.message === "Esta obra ya está asignada a esta exposición") {
+      if (
+        response?.message === "Esta obra ya está asignada a esta exposición"
+      ) {
         // ⚠️ Mostrar alerta de duplicado
         toast.error("⚠️ Esta obra ya está asignada a esa exposición");
         return;
@@ -57,14 +59,15 @@ export default function ObrasExpuestas() {
     } catch (error) {
       // 🔍 Si viene desde el backend con código 400
       if (error.response?.status === 400) {
-        toast.error(error.response.data?.message || "Obra ya asignada a la exposición");
+        toast.error(
+          error.response.data?.message || "Obra ya asignada a la exposición"
+        );
       } else {
         console.error(error);
         toast.error("Error al asignar la obra a la exposición");
       }
     }
   };
-
 
   // 🗑️ Eliminar asignación
   const handleDelete = async (id) => {
@@ -93,29 +96,34 @@ export default function ObrasExpuestas() {
 
   return (
     <div className="container py-4">
-      <h2 className="text-center mb-4 fw-bold text-primary">
+      <h1 className="text-center mb-4 text-dark fw-bold">
         🎨 Gestión de Obras Expuestas
-      </h2>
+      </h1>
 
       {/* FORMULARIO */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="card border-0 shadow-sm p-4 mb-4"
+        className="card border-0 shadow-sm p-3 mb-4"
       >
         <div className="row g-3 align-items-end">
           <div className="col-md-5">
-            <label className="form-label fw-semibold text-secondary">Obra</label>
+            <label className="form-label fw-semibold text-secondary">
+              Obra
+            </label>
             <select
-              {...register("id_obra", { required: true })}
+              {...register("id_obra", { required: "La obra es obligatoria" })}
               className="form-select"
-            >
+            > 
               <option value="">Seleccione una obra...</option>
               {obras.map((obra) => (
                 <option key={obra.id} value={obra.id}>
                   {obra.titulo} ({obra.tecnica})
                 </option>
               ))}
-            </select>
+            </select> 
+            {errors.id_obra && (
+              <small className="text-danger">{errors.id_obra.message}</small>
+            )}
           </div>
 
           <div className="col-md-5">
@@ -123,7 +131,7 @@ export default function ObrasExpuestas() {
               Exposición
             </label>
             <select
-              {...register("id_exposicion", { required: true })}
+              {...register("id_exposicion", { required: "La exposición es obligatoria" })}
               className="form-select"
             >
               <option value="">Seleccione una exposición...</option>
@@ -133,12 +141,13 @@ export default function ObrasExpuestas() {
                 </option>
               ))}
             </select>
+            {errors.id_exposicion && (
+              <small className="text-danger">{errors.id_exposicion.message}</small>
+            )}
           </div>
 
           <div className="col-md-2 d-grid">
-            <button className="btn btn-primary fw-semibold">
-              Agregar
-            </button>
+            <button className="btn btn-primary fw-semibold">Agregar</button>
           </div>
         </div>
       </form>
@@ -179,7 +188,7 @@ export default function ObrasExpuestas() {
                         <td>
                           <button
                             onClick={() => handleDelete(item.id)}
-                            className="btn btn-outline-danger btn-sm"
+                            className="btn btn-danger btn-sm"
                           >
                             <i className="bi bi-trash"></i> Eliminar
                           </button>
