@@ -136,8 +136,8 @@ export default function ObrasExpuestas() {
           </div>
 
           <div className="col-md-2 d-grid">
-            <button className="btn btn-success fw-semibold">
-              ➕ Agregar
+            <button className="btn btn-primary fw-semibold">
+              Agregar
             </button>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import Artistas from "./pages/artistas";
+import Artistas from "./pages/Artistas";
 import Obras from "./pages/Obras";
 import Exposiciones from "./pages/Exposiciones";
 import ObrasExpuestas from "./pages/ObrasExpuestas";
@@ -31,7 +31,10 @@ function App() {
       </nav>
 
       <Routes>
-        <Route path="/" element={<h1 className="text-center mt-5">Bienvenido a la Galería</h1>} />
+        <Route path="/" element={
+        <h1 className="text-center mt-5">Bienvenido a la Galería</h1>
+        } />
+
         <Route path="/artistas" element={<Artistas />} />
         <Route path="/obras" element={<Obras />} />
         <Route path="/exposiciones" element={<Exposiciones />} />

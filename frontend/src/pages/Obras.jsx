@@ -114,8 +114,8 @@ export default function Obras() {
 
       {/* TABLA */}
       <div className="table-responsive shadow-sm">
-        <table className="table table-hover align-middle">
-          <thead className="table-dark">
+        <table className="table table-hover align-middle shadow-sm">
+          <thead className="table-primary">
             <tr>
               <th>ID</th>
               <th>Título</th>

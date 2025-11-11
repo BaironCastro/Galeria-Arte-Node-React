@@ -72,10 +72,10 @@ export default function Artistas() {
       {/* FORMULARIO */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="card p-4 shadow-sm mb-5"
+        className="card p-3 mb-4 shadow-sm"
       >
-        <div className="row g-3">
-          <div className="col-md-4">
+        <div className="row g-3 align-items-end">
+          <div className="col-md-3">
             <input
               {...register("nombre", { required: "El nombre es obligatorio" })}
               className="form-control"
@@ -86,7 +86,7 @@ export default function Artistas() {
             )}
           </div>
 
-          <div className="col-md-4">
+          <div className="col-md-3">
             <input
               {...register("nacionalidad")}
               className="form-control"
@@ -94,7 +94,7 @@ export default function Artistas() {
             />
           </div>
 
-          <div className="col-md-4">
+          <div className="col-md-3">
             <input
               {...register("estilo")}
               className="form-control"
@@ -102,22 +102,24 @@ export default function Artistas() {
             />
           </div>
 
-          <div className="col-12 text-end">
-            {editingId && (
-              <button
-                type="button"
-                onClick={() => {
-                  setEditingId(null);
-                  reset();
-                }}
-                className="btn btn-secondary me-2"
-              >
-                Cancelar
+          <div className="col-md-3 text-end">
+            <div className="d-flex gap-2">
+              {editingId && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditingId(null);
+                    reset();
+                  }}
+                  className="btn-secondary"
+                >
+                  Cancelar
+                </button>
+              )}
+              <button type="submit" className="btn btn-primary flex-grow-1">
+                {editingId ? "Actualizar" : "Agregar"} Artista
               </button>
-            )}
-            <button type="submit" className="btn btn-primary">
-              {editingId ? "Actualizar" : "Agregar"} Artista
-            </button>
+            </div>
           </div>
         </div>
       </form>
